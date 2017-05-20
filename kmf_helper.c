@@ -51,21 +51,105 @@ PHP_INI_END()
 /* Every user-visible function in PHP should document itself in the source */
 /* {{{ proto string confirm_kmf_helper_compiled(string arg)
    Return a string to confirm that the module is compiled in */
-PHP_FUNCTION(kmf_array_map)
-{
-	HashTable *arr_input;
+//PHP_FUNCTION(kmf_array_map)
+//{
+//	HashTable *arr_input;
+//	char *arg = NULL;
+//	size_t arg_len, len;
+//	//zend_string *strg;
+//	zval *entry_key;
+//
+//	if (zend_parse_parameters(ZEND_NUM_ARGS(), "hs", &arr_input, &arg, &arg_len) == FAILURE) {
+//		return;
+//	}
+//
+//	//strg = strpprintf(0, "Congratulations! You have successfully modified ext/%.78s/config.m4. Module %.78s is now compiled into PHP.", "kmf_helper", arg);
+//
+//	//RETURN_STR(strg);
+//}
+PHP_FUNCTION(kmf_array_map) {
+	HashTable *keys;
 	char *arg = NULL;
-	size_t arg_len, len;
-	//zend_string *strg;
-	zval *entry_key;
+	char *arg_value = NULL;
+	size_t arg_len;
+	size_t arg_value_len;
+	uint32_t pos_values = 0;
+	zval *entry_keys, *entry_values, *tmp_val;
+	int num_keys;
+	zend_string *strkey, *str_key_value;
+	
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS(), "hs", &arr_input, &arg, &arg_len) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "hs|s", &keys, &arg, &arg_len, &arg_value, &arg_value_len) == FAILURE) {
 		return;
 	}
 
-	//strg = strpprintf(0, "Congratulations! You have successfully modified ext/%.78s/config.m4. Module %.78s is now compiled into PHP.", "kmf_helper", arg);
+	num_keys = zend_hash_num_elements(keys);
+	//格式化字符串
+	strkey = strpprintf(0, "%.78s", arg);
+	//测试索引
+	//RETURN_STR(strkey);
 
-	//RETURN_STR(strg);
+	if (num_keys == 0) {
+		php_error_docref(NULL, E_WARNING, "The input arr was empty!");
+		RETURN_FALSE;
+	}
+	//初始化返回的数组
+	array_init_size(return_value, num_keys);
+	//如果需转换的数组长度为0，则返回错误
+	if (!num_keys) {
+		return;
+	}
+	//遍历hash表
+	ZEND_HASH_FOREACH_VAL(keys, entry_keys) {
+		while (1) {
+			if (pos_values >= keys->nNumUsed) {
+				break;
+			}
+			else if (Z_TYPE(keys->arData[pos_values].val) != IS_UNDEF) {
+				//如果数组内不存在指定的索引，则返回错误
+				if (zend_hash_str_exists(Z_ARRVAL_P(entry_keys), arg, arg_len)) {
+					//验证检查索引是否存在
+					/*php_error_docref(NULL, E_WARNING, "defined index in array");
+					RETURN_FALSE;*/
+					//在hash表中查找指定索引对应的值
+					tmp_val = zend_hash_find(Z_ARRVAL_P(entry_keys), strkey);
+					if (arg_value == NULL) {
+						entry_values = entry_keys;
+					}
+					else
+					{
+						str_key_value = strpprintf(0, "%s", arg_value);
+						entry_values = zend_hash_find(Z_ARRVAL_P(entry_keys), str_key_value);
+					}
+							
+							//如果指定索引的值为整型
+							if (Z_TYPE_P(tmp_val) == IS_LONG) {
+								entry_values = zend_hash_index_update(Z_ARRVAL_P(return_value),
+									Z_LVAL_P(tmp_val), entry_values);
+							}
+							else {//否则为字符串
+								zend_string *key = zval_get_string(tmp_val);
+								entry_values = zend_symtable_update(Z_ARRVAL_P(return_value),
+									key, entry_values);
+								zend_string_release(key);
+							}
+							zval_add_ref(entry_values);
+							pos_values++;
+							break;
+
+					
+				}
+				else {
+					php_error_docref(NULL, E_WARNING, "undefined index in array");
+					RETURN_FALSE;
+				}
+				
+				
+				
+			}
+			pos_values++;
+		}
+	} ZEND_HASH_FOREACH_END();
 }
 /* }}} */
 /* The previous line is meant for vim and emacs, so it can correctly fold and
