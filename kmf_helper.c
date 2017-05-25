@@ -89,10 +89,10 @@ PHP_FUNCTION(kmf_array_map) {
 	//测试索引
 	//RETURN_STR(strkey);
 
-	if (num_keys == 0) {
+	/*if (num_keys == 0) {
 		php_error_docref(NULL, E_WARNING, "The input arr was empty!");
 		RETURN_FALSE;
-	}
+	}*/
 	//初始化返回的数组
 	array_init_size(return_value, num_keys);
 	//如果需转换的数组长度为0，则返回错误

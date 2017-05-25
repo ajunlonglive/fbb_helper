@@ -1,0 +1,5 @@
+﻿  kmf_helper.c
+LINK : warning LNK4075: 忽略“/INCREMENTAL”(由于“/OPT:ICF”规范)
+    正在创建库 C:\Users\strike\Desktop\kmf_helper\php-7.0.18-src\ext\kmf_helper\Release\kmf_helper.lib 和对象 C:\Users\strike\Desktop\kmf_helper\php-7.0.18-src\ext\kmf_helper\Release\kmf_helper.exp
+  kmf_helper.vcxproj -> C:\Users\strike\Desktop\kmf_helper\php-7.0.18-src\ext\kmf_helper\Release\kmf_helper.dll
+  kmf_helper.vcxproj -> C:\Users\strike\Desktop\kmf_helper\php-7.0.18-src\ext\kmf_helper\Release\kmf_helper.pdb (Full PDB)

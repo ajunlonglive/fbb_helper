@@ -1,0 +1,13 @@
+// $Id$
+// vim:ft=javascript
+
+// If your extension references something external, use ARG_WITH
+// ARG_WITH("kmf_helper", "for kmf_helper support", "no");
+
+// Otherwise, use ARG_ENABLE
+// ARG_ENABLE("kmf_helper", "enable kmf_helper support", "no");
+
+if (PHP_KMF_HELPER != "no") {
+	EXTENSION("kmf_helper", "kmf_helper.c", PHP_EXTNAME_SHARED, "/DZEND_ENABLE_STATIC_TSRMLS_CACHE=1");
+}
+

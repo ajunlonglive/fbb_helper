@@ -1,0 +1,5 @@
+﻿  kmf_helper.c
+kmf_helper.c(57): warning C4101: “len”: 未引用的局部变量
+    正在创建库 C:\Users\strike\Desktop\kmf_helper\php-7.0.18-src\ext\kmf_helper\Debug\kmf_helper.lib 和对象 C:\Users\strike\Desktop\kmf_helper\php-7.0.18-src\ext\kmf_helper\Debug\kmf_helper.exp
+  kmf_helper.vcxproj -> C:\Users\strike\Desktop\kmf_helper\php-7.0.18-src\ext\kmf_helper\Debug\kmf_helper.dll
+  kmf_helper.vcxproj -> C:\Users\strike\Desktop\kmf_helper\php-7.0.18-src\ext\kmf_helper\Debug\kmf_helper.pdb (Partial PDB)
