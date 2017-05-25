@@ -33,3 +33,5 @@ tests/*/*.php
 tests/*/*.exp
 tests/*/*.log
 tests/*/*.sh
+.vs/kmf_helper/v15/Browse.VC.opendb
+
